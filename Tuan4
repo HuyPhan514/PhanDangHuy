@@ -1,0 +1,149 @@
+FORM DATAGRIDVIEW
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace BaiTapTuan4
+{
+    public partial class Frm1 : Form
+    {
+        public Frm1()
+        {
+            InitializeComponent();
+
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count > 0)
+            {
+                dgv.Rows.Remove(dgv.SelectedRows[0]);
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên để xóa.");
+            }
+        }
+
+        private void btnThem_Click(object sender, EventArgs e)
+        {
+            Frm2 employeeForm = new Frm2();
+            if (employeeForm.ShowDialog() == DialogResult.OK)
+            {
+                string MSNV = employeeForm.MSNV;
+                string TenNhanVien = employeeForm.TenNhanVien;
+                string LuongCanBan = employeeForm.LuongCanBan;
+                dgv.Rows.Add(MSNV, TenNhanVien, LuongCanBan);
+            }
+        }
+
+        private void BtnSua_Click(object sender, EventArgs e)
+        {
+            if (dgv.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgv.SelectedRows[0];
+                Frm2 employeeForm = new Frm2();
+
+                employeeForm.MSNV = row.Cells[0].Value.ToString();
+                employeeForm.TenNhanVien = row.Cells[1].Value.ToString();
+                employeeForm.LuongCanBan = row.Cells[2].Value.ToString();
+
+                if (employeeForm.ShowDialog() == DialogResult.OK)
+                {
+                    row.Cells[0].Value = employeeForm.MSNV;
+                    row.Cells[1].Value = employeeForm.TenNhanVien;
+                    row.Cells[2].Value = employeeForm.LuongCanBan;
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên để sửa. ");
+            }
+        }
+
+        private void btnDong_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+    }
+}
+
+
+
+
+
+
+
+FORM NHAN VIEN
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
+
+namespace BaiTapTuan4
+{
+    public partial class Frm2 : Form
+    {
+        public string MSNV { get; set; }
+        public string TenNhanVien { get; set; }
+        public string LuongCanBan { get; set; }
+        public Frm2()
+        {
+
+            {
+                InitializeComponent();
+            }
+        }
+        private void btn1_Click(object sender, EventArgs e)
+        {
+            MSNV = txtMa.Text;
+            TenNhanVien = txtTen.Text;
+            LuongCanBan = txtLuong.Text;
+
+            if (string.IsNullOrEmpty(MSNV) || string.IsNullOrEmpty(TenNhanVien) || string.IsNullOrEmpty(LuongCanBan))
+            {
+                MessageBox.Show("Vui lòng nhập đầy đủ thông tin.");
+                return;
+            }
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void btn2_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+    }
+}
+
+
+    
+   
+            
+        
+    
+
+
+        
+    
+
+
+
+
+
